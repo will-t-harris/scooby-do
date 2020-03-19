@@ -1,0 +1,12 @@
+{
+	"name": "scooby-do",
+	"version": "1.0.0",
+	"main": "index.js",
+	"repository": "git@github.com:will-t-harris/scooby-do.git",
+	"author": "Will Harris <will.t.harris@protonmail.com>",
+	"license": "MIT",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	]
+}
