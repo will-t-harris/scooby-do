@@ -1,5 +1,8 @@
 import React from "react";
 import { Container, Heading, Button, Flex } from "theme-ui";
+import netlifyIdentity from "netlify-identity-widget";
+
+netlifyIdentity.init({});
 
 export default props => (
 	<Container>
@@ -8,7 +11,7 @@ export default props => (
 			<Button
 				sx={{ marginTop: 2 }}
 				onClick={() => {
-					alert("clicked!");
+					netlifyIdentity.open();
 				}}
 			>
 				Log In
