@@ -13,10 +13,14 @@ const IdentityProvider = props => {
 	});
 
 	netlifyIdentity.on("login", user => {
+		netlifyIdentity.close();
 		setUser(user);
 	});
 
-	netlifyIdentity.on("logout", () => setUser());
+	netlifyIdentity.on("logout", () => {
+		netlifyIdentity.close();
+		setUser();
+	});
 
 	return (
 		<IdentityContext.Provider
