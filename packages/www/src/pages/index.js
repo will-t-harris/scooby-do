@@ -5,6 +5,7 @@ import { IdentityContext } from "../../identity-context";
 
 export default props => {
 	const { user, identity: netlifyIdentity } = useContext(IdentityContext);
+
 	return (
 		<Container>
 			<Flex as="nav">

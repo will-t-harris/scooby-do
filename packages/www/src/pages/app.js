@@ -5,6 +5,7 @@ import { IdentityContext } from "../../identity-context";
 
 let Dash = () => {
 	const { user, identity: netlifyIdentity } = useContext(IdentityContext);
+
 	return (
 		<Container>
 			<Flex as="nav">
@@ -16,6 +17,7 @@ let Dash = () => {
 				</NavLink>
 				{user && (
 					<NavLink href="#!" p={2}>
+						{console.log(user)}
 						{user.user_metadata.full_name}
 					</NavLink>
 				)}
@@ -44,7 +46,8 @@ let Dash = () => {
 };
 
 let DashLoggedOut = props => {
-	const { user, identity: netlifyIdentity } = useContext(IdentityContext);
+	const { identity: netlifyIdentity } = useContext(IdentityContext);
+
 	return (
 		<Container>
 			<Flex as="nav">
