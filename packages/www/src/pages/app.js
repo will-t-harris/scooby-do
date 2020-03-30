@@ -46,7 +46,7 @@ let Dash = () => {
 };
 
 let DashLoggedOut = props => {
-	const { identity: netlifyIdentity } = useContext(IdentityContext);
+	const { user, identity: netlifyIdentity } = useContext(IdentityContext);
 
 	return (
 		<Container>
