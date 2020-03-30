@@ -14,7 +14,7 @@ import { IdentityContext } from "../../identity-context";
 const Dashboard = props => {
 	const { user, identity: netlifyIdentity } = useContext(IdentityContext);
 
-	const inputRef = useRef;
+	const inputRef = useRef();
 
 	return (
 		<Container>
@@ -27,7 +27,6 @@ const Dashboard = props => {
 				</NavLink>
 				{user && (
 					<NavLink href="#!" p={2}>
-						{console.log(user)}
 						{user.user_metadata.full_name}
 					</NavLink>
 				)}
