@@ -35,7 +35,7 @@ let Dash = () => {
 				<Button
 					sx={{ marginTop: 2 }}
 					onClick={() => {
-						netlifyIdentity.close();
+						netlifyIdentity.logout();
 					}}
 				>
 					Log Out
