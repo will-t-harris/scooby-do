@@ -85,6 +85,7 @@ const Dashboard = props => {
 						<Flex
 							as="li"
 							onClick={() => {
+								event.preventDefault();
 								dispatch({
 									type: "toggleTodoDone",
 									payload: inputRef.current.value,
