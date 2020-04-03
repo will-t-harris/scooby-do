@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 import { Router, Link } from "@reach/router";
 import { Flex, Heading, Button, NavLink, Container } from "theme-ui";
 import { IdentityContext } from "../../identity-context";
