@@ -85,7 +85,10 @@ const Dashboard = props => {
 						<Flex
 							as="li"
 							onClick={() => {
-								dispatch({ type: "toggleTodoDone", payload: i });
+								dispatch({
+									type: "toggleTodoDone",
+									payload: inputRef.current.value,
+								});
 							}}
 						>
 							<Checkbox checked={todo.done} />
