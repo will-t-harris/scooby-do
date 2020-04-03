@@ -16,7 +16,7 @@ const todosReducer = (state, action) => {
 	switch (action.type) {
 		case "addTodo":
 			return [{ done: false, value: action.payload }, ...state];
-		case "toggleTodo":
+		case "toggleTodoDone":
 			const newState = [...state];
 			newState[action.payload] = {
 				done: !state[action.payload].done,
