@@ -81,14 +81,13 @@ const Dashboard = props => {
 			</Flex>
 			<Flex sx={{ flexDirection: "column" }}>
 				<ul sx={{ listStyleType: "none" }}>
-					{todos.map(todo => (
+					{todos.map((todo, index) => (
 						<Flex
 							as="li"
 							onClick={() => {
-								event.preventDefault();
 								dispatch({
 									type: "toggleTodoDone",
-									payload: inputRef.current.value,
+									payload: index,
 								});
 							}}
 						>
