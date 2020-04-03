@@ -22,7 +22,7 @@ const todosReducer = (state, action) => {
 				done: !state[action.payload].done,
 				value: state[action.payload].value,
 			};
-			return state;
+			return newState;
 	}
 };
 
