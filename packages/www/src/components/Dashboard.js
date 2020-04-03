@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useReducer } from "react";
 import { Router, Link } from "@reach/router";
 import {
 	Flex,
@@ -8,12 +8,27 @@ import {
 	Container,
 	Input,
 	Label,
+	Checkbox,
 } from "theme-ui";
 import { IdentityContext } from "../../identity-context";
 
+const todosReducer = (state, action) => {
+	switch (action.type) {
+		case "addTodo":
+			return [{ done: false, value: action.payload }, ...state];
+		case "toggleTodo":
+			const newState = [...state];
+			newState[action.payload] = {
+				done: !state[action.payload].done,
+				value: state[action.payload].value,
+			};
+			return state;
+	}
+};
+
 const Dashboard = props => {
 	const { user, identity: netlifyIdentity } = useContext(IdentityContext);
-
+	const [todos, dispatch] = useReducer(todosReducer, []);
 	const inputRef = useRef();
 
 	return (
@@ -54,7 +69,8 @@ const Dashboard = props => {
 				as="form"
 				onSubmit={event => {
 					event.preventDefault();
-					alert(inputRef.current.value);
+					dispatch({ type: "addTodo", payload: inputRef.current.value });
+					inputRef.current.value = "";
 				}}
 			>
 				<Label sx={{ display: "flex" }}>
@@ -62,6 +78,21 @@ const Dashboard = props => {
 					<Input ref={inputRef} sx={{ marginLeft: 1 }} />
 				</Label>
 				<Button sx={{ marginLeft: 1 }}>Submit</Button>
+			</Flex>
+			<Flex sx={{ flexDirection: "column" }}>
+				<ul sx={{ listStyleType: "none" }}>
+					{todos.map(todo => (
+						<Flex
+							as="li"
+							onClick={() => {
+								dispatch({ type: "toggleTodoDone", payload: i });
+							}}
+						>
+							<Checkbox checked={todo.done} />
+							<span>{todo.value}</span>
+						</Flex>
+					))}
+				</ul>
 			</Flex>
 		</Container>
 	);
