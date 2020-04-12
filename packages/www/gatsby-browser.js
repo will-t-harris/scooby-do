@@ -5,14 +5,30 @@ const {
 	HttpLink,
 	InMemoryCache,
 } = require("@apollo/client");
+const { setContext } = require("apollo-link-context");
+const netlifyIdentity = require("netlify-identity-widget");
 
 const wrapRootElement = require("./wrap-root-element");
 
+const authLink = setContext((_, { headers }) => {
+	const user = netlifyIdentity.currentUser();
+	const token = user.token.access_token;
+	// return headers to context to httpLink can read them
+	return {
+		headers: {
+			...headers,
+			Authorization: token ? `Bearer ${token}` : "",
+		},
+	};
+});
+
+const httpLink = new HttpLink({
+	uri: "https://scooby-do.netlify.com/.netlify/functions/graphql",
+});
+
 const client = new ApolloClient({
 	cache: new InMemoryCache(),
-	link: new HttpLink({
-		uri: "https://scooby-do.netlify.com/.netlify/functions/graphql",
-	}),
+	link: authLink.concat(httpLink),
 });
 
 exports.wrapRootElement = ({ element }) => {
