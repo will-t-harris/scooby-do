@@ -12,6 +12,7 @@
 		"@apollo/client": "^3.0.0-beta.43",
 		"@theme-ui/presets": "^0.3.0",
 		"apollo-link-context": "^1.0.20",
+		"faunadb": "^2.13.1",
 		"gatsby": "^2.19.49",
 		"gatsby-plugin-create-client-paths": "^2.2.0",
 		"netlify-identity-widget": "^1.5.6",
