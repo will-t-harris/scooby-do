@@ -32,6 +32,15 @@ const GET_TODOS = gql`
 	}
 `;
 
+const UPDATE_TODO_DONE = gql`
+	mutation UpdateTodoDone($id: ID!) {
+		updateTodoDone(id: $id) {
+			text
+			done
+		}
+	}
+`;
+
 const todosReducer = (state, action) => {
 	switch (action.type) {
 		case "addTodo":
@@ -51,6 +60,7 @@ const Dashboard = (props) => {
 	const [todos, dispatch] = useReducer(todosReducer, []);
 	const inputRef = useRef();
 	const [addTodo] = useMutation(ADD_TODO);
+	const [updateTodoDone] = useMutation(UPDATE_TODO_DONE);
 	const { loading, error, data } = useQuery(GET_TODOS);
 
 	return (
@@ -106,14 +116,11 @@ const Dashboard = (props) => {
 				{error ? <div>{error.message}</div> : null}
 				{!loading && !error && (
 					<ul sx={{ listStyleType: "none" }}>
-						{todos.map((todo, index) => (
+						{todos.map((todo) => (
 							<Flex
 								as="li"
 								onClick={() => {
-									dispatch({
-										type: "toggleTodoDone",
-										payload: index,
-									});
+									updateTodoDone({ variables: { id: todo.id } });
 								}}
 							>
 								<Checkbox checked={todo.done} />
