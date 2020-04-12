@@ -10,7 +10,17 @@ import {
 	Label,
 	Checkbox,
 } from "theme-ui";
+import { gql, useMutation, useQuery } from "@apollo/client";
+
 import { IdentityContext } from "../../identity-context";
+
+const ADD_TODO = gql`
+	mutation AddTodo($type: String!) {
+		addTodo(text: 'one todo') {
+			id
+		}
+	}
+`;
 
 const todosReducer = (state, action) => {
 	switch (action.type) {
@@ -26,10 +36,11 @@ const todosReducer = (state, action) => {
 	}
 };
 
-const Dashboard = props => {
+const Dashboard = (props) => {
 	const { user, identity: netlifyIdentity } = useContext(IdentityContext);
 	const [todos, dispatch] = useReducer(todosReducer, []);
 	const inputRef = useRef();
+	const [addTodo, { data }] = useMutation(ADD_TODO);
 
 	return (
 		<Container>
@@ -67,9 +78,9 @@ const Dashboard = props => {
 			</Flex>
 			<Flex
 				as="form"
-				onSubmit={event => {
+				onSubmit={(event) => {
 					event.preventDefault();
-					dispatch({ type: "addTodo", payload: inputRef.current.value });
+					addTodo({ variables: { text: inputRef.current.value } });
 					inputRef.current.value = "";
 				}}
 			>
