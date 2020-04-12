@@ -15,7 +15,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { IdentityContext } from "../../identity-context";
 
 const ADD_TODO = gql`
-	mutation AddTodo($type: String!) {
+	mutation AddTodo($text: String!) {
 		addTodo(text: $text) {
 			id
 		}
@@ -55,7 +55,7 @@ const todosReducer = (state, action) => {
 	}
 };
 
-const Dashboard = (props) => {
+const Dashboard = () => {
 	const { user, identity: netlifyIdentity } = useContext(IdentityContext);
 	const [todos, dispatch] = useReducer(todosReducer, []);
 	const inputRef = useRef();
