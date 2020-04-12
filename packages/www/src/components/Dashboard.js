@@ -61,7 +61,7 @@ const Dashboard = (props) => {
 	const inputRef = useRef();
 	const [addTodo] = useMutation(ADD_TODO);
 	const [updateTodoDone] = useMutation(UPDATE_TODO_DONE);
-	const { loading, error, data } = useQuery(GET_TODOS);
+	const { loading, error, data, refetch } = useQuery(GET_TODOS);
 
 	return (
 		<Container>
@@ -99,10 +99,11 @@ const Dashboard = (props) => {
 			</Flex>
 			<Flex
 				as="form"
-				onSubmit={(event) => {
+				onSubmit={async (event) => {
 					event.preventDefault();
-					addTodo({ variables: { text: inputRef.current.value } });
+					await addTodo({ variables: { text: inputRef.current.value } });
 					inputRef.current.value = "";
+					await refetch();
 				}}
 			>
 				<Label sx={{ display: "flex" }}>
@@ -118,13 +119,15 @@ const Dashboard = (props) => {
 					<ul sx={{ listStyleType: "none" }}>
 						{todos.map((todo) => (
 							<Flex
+								key={todo.id}
 								as="li"
-								onClick={() => {
-									updateTodoDone({ variables: { id: todo.id } });
+								onClick={async () => {
+									await updateTodoDone({ variables: { id: todo.id } });
+									await refetch();
 								}}
 							>
 								<Checkbox checked={todo.done} />
-								<span>{todo.value}</span>
+								<span>{todo.text}</span>
 							</Flex>
 						))}
 					</ul>
