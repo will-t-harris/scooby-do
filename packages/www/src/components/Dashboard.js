@@ -22,6 +22,16 @@ const ADD_TODO = gql`
 	}
 `;
 
+const GET_TODOS = gql`
+	query GetTodos {
+		todos {
+			id
+			text
+			done
+		}
+	}
+`;
+
 const todosReducer = (state, action) => {
 	switch (action.type) {
 		case "addTodo":
@@ -40,7 +50,8 @@ const Dashboard = (props) => {
 	const { user, identity: netlifyIdentity } = useContext(IdentityContext);
 	const [todos, dispatch] = useReducer(todosReducer, []);
 	const inputRef = useRef();
-	const [addTodo, { data }] = useMutation(ADD_TODO);
+	const [addTodo] = useMutation(ADD_TODO);
+	const { loading, error, data } = useQuery(GET_TODOS);
 
 	return (
 		<Container>
@@ -91,22 +102,26 @@ const Dashboard = (props) => {
 				<Button sx={{ marginLeft: 1 }}>Submit</Button>
 			</Flex>
 			<Flex sx={{ flexDirection: "column" }}>
-				<ul sx={{ listStyleType: "none" }}>
-					{todos.map((todo, index) => (
-						<Flex
-							as="li"
-							onClick={() => {
-								dispatch({
-									type: "toggleTodoDone",
-									payload: index,
-								});
-							}}
-						>
-							<Checkbox checked={todo.done} />
-							<span>{todo.value}</span>
-						</Flex>
-					))}
-				</ul>
+				{loading ? <div>loading...</div> : null}
+				{error ? <div>{error.message}</div> : null}
+				{!loading && !error && (
+					<ul sx={{ listStyleType: "none" }}>
+						{todos.map((todo, index) => (
+							<Flex
+								as="li"
+								onClick={() => {
+									dispatch({
+										type: "toggleTodoDone",
+										payload: index,
+									});
+								}}
+							>
+								<Checkbox checked={todo.done} />
+								<span>{todo.value}</span>
+							</Flex>
+						))}
+					</ul>
+				)}
 			</Flex>
 		</Container>
 	);
