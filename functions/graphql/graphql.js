@@ -3,14 +3,23 @@ const { ApolloServer, gql } = require("apollo-server-lambda");
 // Construct schema
 const typeDefs = gql`
 	type Query {
-		hello: String
+		todos: [Todo]!
+	}
+	type Todo {
+		id: ID!
+		text: String!
+		done: Boolean!
 	}
 `;
+
+const todos = {};
 
 // Provide resolver functions for schema fields
 const resolvers = {
 	Query: {
-		hello: () => "Hello world!",
+		todos: () => {
+			return Object.values(todos);
+		},
 	},
 };
 
