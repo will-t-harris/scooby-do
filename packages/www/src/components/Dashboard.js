@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useReducer } from "react";
-import { Router, Link } from "@reach/router";
+import React, { useContext, useRef } from "react";
+import { Link } from "@reach/router";
 import {
 	Flex,
 	Heading,
@@ -41,23 +41,8 @@ const UPDATE_TODO_DONE = gql`
 	}
 `;
 
-const todosReducer = (state, action) => {
-	switch (action.type) {
-		case "addTodo":
-			return [{ done: false, value: action.payload }, ...state];
-		case "toggleTodoDone":
-			const newState = [...state];
-			newState[action.payload] = {
-				done: !state[action.payload].done,
-				value: state[action.payload].value,
-			};
-			return newState;
-	}
-};
-
 const Dashboard = () => {
 	const { user, identity: netlifyIdentity } = useContext(IdentityContext);
-	const [todos, dispatch] = useReducer(todosReducer, []);
 	const inputRef = useRef();
 	const [addTodo] = useMutation(ADD_TODO);
 	const [updateTodoDone] = useMutation(UPDATE_TODO_DONE);
