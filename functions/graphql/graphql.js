@@ -89,6 +89,7 @@ const server = new ApolloServer({
 			return {};
 		}
 	},
+	cors: false,
 
 	// By default, the GraphQL Playground interface and GraphQL introspection
 	// is disabled in "production" (i.e. when `process.env.NODE_ENV` is `production`).
@@ -99,7 +100,7 @@ const server = new ApolloServer({
 	introspection: true,
 });
 
-module.exports = server.createHandler({
+exports.handler = server.createHandler({
 	cors: {
 		origin: "*",
 		credentials: true,
